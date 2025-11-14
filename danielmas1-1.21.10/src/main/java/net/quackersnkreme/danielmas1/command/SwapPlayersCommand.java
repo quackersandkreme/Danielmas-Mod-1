@@ -40,6 +40,13 @@ public class SwapPlayersCommand {
                                             SwapManager.setInterval(ctx.getSource(), IntegerArgumentType.getInteger(ctx, "seconds"));
                                             return 1;
                                         })))
+                        .executes(ctx -> {
+                            ctx.getSource().sendFeedback(() -> literal("This is the swap command"), false);
+                            ctx.getSource().sendFeedback(() -> literal("type /swapPlayers start to start swapping"), false);
+                            ctx.getSource().sendFeedback(() -> literal("type /swapPlayers stop to stop swapping"), false);
+                            ctx.getSource().sendFeedback(() -> literal("type /swapPlayer interval to change the time between swaps"), false);
+                            return 1;
+                        })
         );
     }
 }
