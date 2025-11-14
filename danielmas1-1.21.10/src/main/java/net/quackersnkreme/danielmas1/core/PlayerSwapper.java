@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static net.minecraft.text.Text.literal;
+
 public class PlayerSwapper {
 
     public static void swap(MinecraftServer server) {
@@ -22,6 +24,10 @@ public class PlayerSwapper {
 
         Collections.shuffle(randPlayers);
         List<Vec3d> playerLocations = getLocations(randPlayers);
+        for (int i = 0; i < players.size(); i++) {
+            int finalI = i;
+            server.getCommandSource().sendFeedback(() -> literal("" + playerLocations.get(finalI).x + playerLocations.get(finalI).y + playerLocations.get(finalI).z), false);
+        }
         applySwap(playerLocations, players);
     }
 
@@ -47,7 +53,8 @@ public class PlayerSwapper {
 
     private static void applySwap(List<Vec3d> locations, List<ServerPlayerEntity> players) {
         for (int i = 0; i < players.size(); i++) {
-            players.get(i).setPos(locations.get(i).x, locations.get(i).y, locations.get(i).z);
+            int nextIndex = (i + 1) % players.size();
+            players.get(i).setPos(locations.get(nextIndex).x, locations.get(nextIndex).y, locations.get(nextIndex).z);
         }
     }
 
