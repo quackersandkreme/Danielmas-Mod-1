@@ -1,5 +1,6 @@
 package net.quackersnkreme.danielmas1.core;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -30,13 +31,16 @@ public class PlayerSwapper {
         Collections.shuffle(randPlayers);
 
         //get all the player locations
-        players.getFirst().sendMessage(Text.of("" + players.size()));
 
         List<Vec3d> playerLocations = getLocations(randPlayers);
 
+        float[] playerYaws = getYaw(randPlayers);
+
+        float[] playerPitches = getPitch(randPlayers);
+
         //moves the players to the new location
 
-        applySwap(playerLocations, players);
+        applySwap(playerLocations, playerYaws, playerPitches, players);
     }
 
     //method to get locations
@@ -68,14 +72,38 @@ public class PlayerSwapper {
         return locations;
     }
 
+    private static float[] getYaw(List<ServerPlayerEntity> players) {
+
+        float[] yaws = new float[players.size()];
+
+        for(int i = 0; i < players.size(); i++) {
+            yaws[i] = players.get(i).getYaw();
+        }
+
+        return yaws;
+    }
+
+    private static float[] getPitch(List<ServerPlayerEntity> players) {
+
+        float[] pitches = new float[players.size()];
+
+        for(int i = 0; i < players.size(); i++) {
+            pitches[i] = players.get(i).getPitch();
+        }
+
+        return pitches;
+    }
+
     //apply swap method
 
-    private static void applySwap(List<Vec3d> locations, List<ServerPlayerEntity> players) {
+    private static void applySwap(List<Vec3d> locations, float[] yaws, float[] pitches, List<ServerPlayerEntity> players) {
 
-        //teleports players to the list of locations, DO NOT USE setPos this is way easier, you don't have to override anything
+        //teleports players to the list of locations, DO NOT USE setPos this is way easier, you don't have to override anything (this is before i tried look shenanigans)
 
         for (int i = 0; i < players.size(); i++) {
+
             players.get(i).teleport(locations.get(i).x, locations.get(i).y, locations.get(i).z, false);
+
         }
     }
 
