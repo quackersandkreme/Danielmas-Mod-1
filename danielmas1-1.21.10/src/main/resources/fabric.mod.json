@@ -11,7 +11,7 @@
 		"homepage": "https://github.com/quackersandkreme",
 		"sources": "https://github.com/quackersandkreme/danielmas-mod-1"
 	},
-	"license": "MIT",
+	"license": "CC0 1.0",
 	"icon": "assets/danielmas1/icon.png",
 	"environment": "*",
 	"entrypoints": {

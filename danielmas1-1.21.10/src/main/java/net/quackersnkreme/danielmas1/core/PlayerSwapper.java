@@ -101,8 +101,8 @@ public class PlayerSwapper {
         //teleports players to the list of locations, DO NOT USE setPos this is way easier, you don't have to override anything (this is before i tried look shenanigans)
 
         for (int i = 0; i < players.size(); i++) {
-
-            players.get(i).teleport(locations.get(i).x, locations.get(i).y, locations.get(i).z, false);
+            int nextIndex = (i + 1) % players.size();
+            players.get(i).teleport(locations.get(nextIndex).x, locations.get(nextIndex).y, locations.get(nextIndex).z, false);
 
         }
     }
