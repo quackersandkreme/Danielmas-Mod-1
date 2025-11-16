@@ -19,24 +19,23 @@ public class PlayerSwapper {
 
         //create list of players in world
 
-        List<ServerPlayerEntity> randPlayers = new ArrayList<>(server.getPlayerManager().getPlayerList());
         List<ServerPlayerEntity> players = new ArrayList<>(server.getPlayerManager().getPlayerList());
 
-        //don't do anything if there is one player
+        //don't do anything if there is less than 2 players
 
         if (server.getCurrentPlayerCount() < 2) return;
 
         //shuffle the list of players
 
-        Collections.shuffle(randPlayers);
+        Collections.shuffle(players);
 
         //get all the player locations
 
-        List<Vec3d> playerLocations = getLocations(randPlayers);
+        List<Vec3d> playerLocations = getLocations(players);
 
-        float[] playerYaws = getYaw(randPlayers);
+        float[] playerYaws = getYaw(players);
 
-        float[] playerPitches = getPitch(randPlayers);
+        float[] playerPitches = getPitch(players);
 
         //moves the players to the new location
 
@@ -101,7 +100,11 @@ public class PlayerSwapper {
         //teleports players to the list of locations, DO NOT USE setPos this is way easier, you don't have to override anything (this is before i tried look shenanigans)
 
         for (int i = 0; i < players.size(); i++) {
+
+            //produces an off-kilter run though of the list starting a 1 and ending at 0 due to modulus
+
             int nextIndex = (i + 1) % players.size();
+
             players.get(i).teleport(locations.get(nextIndex).x, locations.get(nextIndex).y, locations.get(nextIndex).z, false);
 
         }
